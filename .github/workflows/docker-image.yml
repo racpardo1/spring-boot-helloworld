@@ -1,0 +1,24 @@
+name: Docker Image CI
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+
+  build:
+
+    runs-on: ubuntu-latest
+
+  steps:
+      - uses: actions/checkout@v2
+      - uses: azure/docker-login@v1
+        with:
+           login-server:democontenedorregistry.azurecr.io
+           username: democontenedorregistry
+           password: /Q3TeoKEyvBbZQvj48gxd63f6tDQs25pltEB2ODew4+ACRAMqMjy
+      - run: |
+          docker build . -t democontenedorregistry.azurecr.io/knowledgefactory:${{ github.sha }}
+          docker push democontenedorregistry.azurecr.io/knowledgefactory:${{ github.sha }}
